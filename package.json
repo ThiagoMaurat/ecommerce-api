@@ -1,0 +1,19 @@
+{
+  "name": "node-ecommerce",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "find ./src -type f -name '*.spec.ts' -exec node --loader tsx --test {} \\;",
+    "dev": "node --watch src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.4.8",
+    "tsx": "^3.12.7",
+    "typescript": "^5.1.6"
+  }
+}
