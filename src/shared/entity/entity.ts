@@ -1,6 +1,6 @@
 import UniqueEntityId from "shared/domain/value-objects/unique-entity-id";
 
-export class Entity<Props> {
+export class Entity<Props = any> {
   public readonly UniqueEntityId: UniqueEntityId;
 
   constructor(public readonly props: Props, id?: UniqueEntityId) {
