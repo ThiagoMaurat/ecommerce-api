@@ -1,4 +1,5 @@
-import UniqueEntityId from "shared/domain/unique-entity-id";
+import UniqueEntityId from "shared/domain/value-objects/unique-entity-id";
+import { Entity } from "shared/entity/entity";
 
 export type CategoryProperties = {
   name: string;
@@ -7,13 +8,21 @@ export type CategoryProperties = {
   description?: string;
 };
 
-export class Category {
-  public readonly id: string;
-  constructor(public readonly props: CategoryProperties, id?: string) {
-    this.id = id || new UniqueEntityId().id;
+export class Category extends Entity<CategoryProperties> {
+  constructor(public readonly props: CategoryProperties, id?: UniqueEntityId) {
+    super(props, id);
     this.props.description = this.props.description;
     this.props.is_active = this.props.is_active ?? true;
     this.props.created_at = this.props.created_at ?? new Date();
+  }
+
+  update(name: string, description: string): void {
+    this.name = name;
+    this.description = description;
+  }
+
+  active() {
+    this.is_active = true;
   }
 
   get name(): string {
@@ -35,5 +44,9 @@ export class Category {
 
   private set is_active(value: boolean) {
     this.props.is_active = value ?? true;
+  }
+
+  private set name(value: string) {
+    this.props.name = value;
   }
 }

@@ -1,5 +1,5 @@
 import { Category } from "./category";
-import { describe, test } from "node:test";
+import { describe, it, test } from "node:test";
 import assert from "node:assert";
 
 describe("Category Unit Tests", () => {
@@ -75,4 +75,34 @@ describe("Category Unit Tests", () => {
 
     assert.equal(!!category3.id, true);
   });
+
+  test("should check getter and setter of category name", () => {
+    const category = new Category({
+      name: "Movie",
+    });
+    assert.equal(category.name, "Movie");
+
+    category["name"] = "Movie 2";
+    assert.equal(category.name, "Movie 2");
+  });
+
+  test("should activate category", () => {
+    const category = new Category({
+      name: "Movie",
+      is_active: false,
+    });
+
+    category.active();
+    assert.equal(category.is_active, true);
+  });
+});
+
+it("should update a category", () => {
+  const category = new Category({
+    name: "Movie",
+  });
+
+  category.update("Movie 2", "Movie description");
+  assert.equal(category.name, "Movie 2");
+  assert.equal(category.description, "Movie description");
 });

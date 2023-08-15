@@ -1,6 +1,6 @@
 import { describe, mock, it } from "node:test";
 import assert from "node:assert";
-import UniqueEntityId from "./unique-entity-id";
+import UniqueEntityId from "../unique-entity-id";
 
 describe("UniqueEntityId Unit Tests", () => {
   it("should throw error when uuid is invalid", () => {
@@ -24,6 +24,6 @@ describe("UniqueEntityId Unit Tests", () => {
     const uniqueEntityId = new UniqueEntityId(
       "2f5c3e63-9c7a-4f8a-bd0a-9a8687f53b9c"
     );
-    assert.equal(uniqueEntityId.id, "2f5c3e63-9c7a-4f8a-bd0a-9a8687f53b9c");
+    assert.equal(uniqueEntityId.value, "2f5c3e63-9c7a-4f8a-bd0a-9a8687f53b9c");
   });
 });
