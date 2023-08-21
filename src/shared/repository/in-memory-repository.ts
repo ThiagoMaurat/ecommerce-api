@@ -1,9 +1,12 @@
 import UniqueEntityId from "shared/domain/value-objects/unique-entity-id";
-import { RepositoryInterface } from "./repository-contracts";
+import {
+  RepositoryInterface,
+  SearchRepositoryInterface,
+} from "./repository-contracts";
 import { Entity } from "shared/entity/entity";
 import { NotFoundError } from "shared/error/not-found.error";
 
-export default abstract class InMemoryRepository<E extends Entity>
+export abstract class InMemoryRepository<E extends Entity>
   implements RepositoryInterface<E>
 {
   items: E[] = [];
@@ -38,5 +41,14 @@ export default abstract class InMemoryRepository<E extends Entity>
     const index = this.items.findIndex((item) => item.id === id);
 
     this.items.splice(index, 1);
+  }
+}
+
+export abstract class InMemorySearchableRepository<E extends Entity>
+  extends InMemoryRepository<E>
+  implements SearchRepositoryInterface<E, any, any>
+{
+  search(query: any): Promise<any> {
+    throw new Error("Method not implemented.");
   }
 }

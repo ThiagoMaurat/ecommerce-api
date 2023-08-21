@@ -1,6 +1,6 @@
 import { beforeEach, describe, it } from "node:test";
 import { Entity } from "shared/entity/entity";
-import InMemoryRepository from "./in-memory-repository";
+import { InMemoryRepository } from "./in-memory-repository";
 import assert from "node:assert";
 import UniqueEntityId from "shared/domain/value-objects/unique-entity-id";
 import { NotFoundError } from "shared/error/not-found.error";
@@ -43,5 +43,17 @@ describe("InMemoryRepository Unit Tests", () => {
         new UniqueEntityId("2f5c3e63-9c7a-4f8a-bd0a-9a8687f53b9c")
       );
     }, new NotFoundError("Entity not found using ID: 2f5c3e63-9c7a-4f8a-bd0a-9a8687f53b9c"));
+  });
+
+  it("should finds a entity", async () => {
+    const entity = new StubEntity({
+      name: "Movie",
+      price: 10,
+    });
+
+    await repository.insert(entity);
+
+    const entityFound = await repository.findById(entity.id);
+    assert.equal(entityFound.id, entity.id);
   });
 });
