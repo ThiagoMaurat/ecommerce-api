@@ -25,6 +25,7 @@ export class SearchParams {
   protected _sort: string | null;
   protected _sort_dir: SortDirection | null;
   protected _filter: string | null;
+
   constructor(props: SearchProps = {}) {
     this.page = props.page;
     this.per_page = props.per_page;
@@ -37,39 +38,73 @@ export class SearchParams {
     return this._page;
   }
 
-  private set page(page: number) {}
+  set page(page: number) {
+    let _page = +page;
+
+    if (Number.isNaN(_page) || _page <= 0 || parseInt(_page as any) !== _page) {
+      _page = 1;
+    }
+
+    this._page = _page;
+  }
 
   get per_page() {
     return this._per_page;
   }
 
-  private set per_page(value: number) {}
+  set per_page(value: number) {
+    let _per_page = +value;
+
+    if (
+      Number.isNaN(_per_page) ||
+      _per_page <= 0 ||
+      parseInt(_per_page as any) !== _per_page
+    ) {
+      _per_page = 15;
+    }
+
+    this._per_page = _per_page;
+  }
 
   get sort(): string | null {
     return this._sort;
   }
 
-  private set sort(per_page: string | null) {}
+  set sort(per_page: string | null) {
+    this._sort =
+      per_page === null || per_page === undefined || per_page === ""
+        ? null
+        : `${per_page}`;
+  }
 
   get sort_dir(): string | null {
     return this._sort_dir;
   }
 
-  private set sort_dir(value: SortDirection | null) {
-    this._sort_dir = value;
+  set sort_dir(value: SortDirection | null) {
+    if (!this.sort) {
+      this._sort_dir = null;
+      return;
+    }
+
+    const dir = `${value}`.toLowerCase();
+    this._sort_dir = dir !== "asc" && dir !== "desc" ? "asc" : dir;
   }
 
   get filter(): string | null {
     return this._filter;
   }
 
-  private set filter(value: string | null) {}
+  set filter(value: string | null) {
+    this._filter =
+      value === null || value === undefined || value === "" ? null : `${value}`;
+  }
 }
 
 export interface SearchRepositoryInterface<
   E extends Entity,
-  SearchInput,
-  SearchOutput
+  SearchOutput,
+  SearchInput = SearchParams
 > extends RepositoryInterface<E> {
   search(query: SearchParams): Promise<SearchOutput>;
 }
